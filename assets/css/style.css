@@ -1,0 +1,41 @@
+header {
+    width: 100%;
+}
+
+.highscores{
+    display:inline;
+}
+.timer {
+    display: inline;
+    margin-right: 30px;
+
+}
+
+.card {
+    display: flex;
+    justify-content: center;
+    margin: 30px 25% 0px 25%;
+}
+
+.quiz-field h1 {
+    font-size: 30px;
+    font-weight:bold;
+    margin-bottom: 20px;
+}
+
+.quiz-field button {
+    display:block;
+    margin: 5px;
+    padding: 3px;
+    background-color: rgb(65, 5, 155);
+    color: white;
+    border-radius: 5px;
+}
+
+.quiz-field p {
+    margin-top: 20px;
+    font-style: italic;
+    color: grey;
+    border-top: 2px solid grey;
+    padding-top: 20px;
+}

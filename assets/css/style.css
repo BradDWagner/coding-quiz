@@ -44,11 +44,11 @@ h1 {
     line-height: 25px;
 }
 
-.quiz-field button {
+.quiz-screen button {
     display:block;
 }
 
-.quiz-field p {
+.quiz-screen p {
     margin-top: 20px;
     font-style: italic;
     color: grey;

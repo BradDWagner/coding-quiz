@@ -7,7 +7,10 @@ var card = document.querySelector(".card");
 
 var questionArray = [
     ["Comonly used data types DO NOT include:", "1. Strings", "false", "2. Booleans", "false", "3. Alerts", "true", "4. Numbers", "false"],
-    ["The condition in and if/else statement is enclosed withing ______:", "1. Quotes", "false", "2. Curly brackets", "false", "3. Parentheses", "true", "4. Square brackets", "false"]
+    ["The condition in and if/else statement is enclosed withing ______:", "1. Quotes", "false", "2. Curly brackets", "false", "3. Parentheses", "true", "4. Square brackets", "false"],
+    ["String values must be enclosed within _____ when being assigned to variables.", "1. Commas", "false", "2. Curly brackets", "false", "3. Quotes", "true", "4. Parentheses", "false"],
+    ["Arrays in JavaScript can be used to store _____.", "1. Numbers and strings", "false", "2. Other arrays", "false", "3. Booleans", "false", "4. All of the above", "true"],
+    ["A very useful tool used during development and debuggin for printing content to the debugger is:", "1. JavaScript", "false", "2. Terminal/bash", "false", "3. For loops", "false", "4. Console.log", "true"]
 ]
 
 var lastAnswerState = "";
@@ -15,6 +18,8 @@ var timer;
 var timerCount = 75;
 var timerDisplay = document.querySelector(".display-timer");
 timerDisplay.textContent = "Time: 75";
+var finalScore;
+
 
 
 
@@ -38,8 +43,16 @@ function generateStart () {
     startButton.textContent = "Start Quiz";
     startButton.setAttribute("id", "start-quiz")
     startDiv.appendChild(startButton);
+
+    var startScreenButton = document.querySelector("#start-quiz");
+    startScreenButton.addEventListener("click", function(){
+
+        generateQuiz(0);
+        startTimer(); 
+
+    })
 }
-// generateStart(); 
+generateStart(); 
 
 
 
@@ -79,12 +92,26 @@ function generateQuiz (questionNumber){
 
             if (state == "true") {
                 lastAnswerState = "Correct!";
-                generateQuiz(questionNumber+1);
+                if (questionNumber + 1 < questionArray.length){
+                    generateQuiz(questionNumber+1);
+                } else {
+                    finalScore = timerCount;
+
+                    clearInterval(timer);
+                    generateEnd();
+                }
+                
                 
             } else {
                 lastAnswerState = "Wrong!";
                 timerCount = timerCount - 20;
-                generateQuiz(questionNumber+1);
+                if (questionNumber + 1 < questionArray.length){
+                    generateQuiz(questionNumber+1);
+                } else {
+                    finalScore = timerCount;
+                    clearInterval(timer);
+                    generateEnd();
+                }
             }
         }
     })
@@ -96,7 +123,8 @@ function generateQuiz (questionNumber){
     
  
 }
-// generateQuiz(0);
+// generateQuiz(4);
+
 
 
 
@@ -116,6 +144,7 @@ function generateEnd () {
 
     var endP = document.createElement("p");
     endP.setAttribute("id", "display-score");
+    endP.textContent = "Your final score is " + finalScore;
     endDiv.appendChild(endP);
 
     var endForm = document.createElement("form");
@@ -133,7 +162,7 @@ function generateEnd () {
     endForm.appendChild(endFormInput);
 
     var endFormButton = document.createElement("button");
-    endFormButton.setAttribute("type", "submit");
+    endFormButton.setAttribute("type", "button");
     endFormButton.textContent = "Submit";
     endForm.appendChild(endFormButton);
 
@@ -141,6 +170,24 @@ function generateEnd () {
     endLastAnswer.setAttribute("class", "last-answer");
     endLastAnswer.textContent = lastAnswerState;
     endDiv.appendChild(endLastAnswer);
+
+    var initialInput = document.querySelector("input");
+    var initialSubmit = document.querySelector("button");
+
+    initialSubmit.addEventListener("click", function(event){
+        var initialText = initialInput.value.trim();
+        if (initialText === "") {
+            return;
+        }
+
+        var finalScoreArray = [];
+        finalScoreArray.push(initialText);
+        finalScoreArray.push(finalScore); 
+
+        localStorage.setItem("highScores", JSON.stringify(finalScoreArray));
+    })
+
+    
 }
 // generateEnd();
 
@@ -158,14 +205,24 @@ function startTimer(){
 
 
 
-function startQuiz () {
-    generateStart();
-    var startScreenButton = document.querySelector("#start-quiz");
+// function startQuiz () {
+//     generateStart();
+//     var startScreenButton = document.querySelector("#start-quiz");
 
-    startScreenButton.addEventListener("click", function(){
+//     startScreenButton.addEventListener("click", function(){
 
-        generateQuiz(0);
-        startTimer(); 
+//         generateQuiz(0);
+//         startTimer(); 
+
+//     })
+// }
+// // startQuiz(); 
+
+
+
+
+
+
 
 
 
@@ -218,8 +275,3 @@ function startQuiz () {
         //         }
         //     })
         // }
-
-
-    })
-}
-startQuiz(); 

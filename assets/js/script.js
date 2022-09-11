@@ -158,6 +158,7 @@ function generateQuiz (questionNumber){
 function generateEnd() {
     card.innerHTML = "";
     finalScore = timerCount;
+    clearInterval(timer);
 
     //create HTML elements
     var endDiv = document.createElement("div");
@@ -213,7 +214,7 @@ function generateEnd() {
             return;
         }
 
-        highScoreArray.push(initialText + " - " + finalScore);
+        highScoreArray.push(initialText.toUpperCase() + " - " + finalScore);
         console.log(highScoreArray);
 
         generateHighScores();

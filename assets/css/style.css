@@ -1,18 +1,31 @@
+/* create color variables */
+:root {
+    --dark: rgb(65, 5, 155);
+    --medium: rgb(200, 152, 246);
+    --light: rgb(233, 215, 250);
+}
+
+/* create containter for header elements  */
 header {
     width: 100%;
     display:flex;
     margin-top: 20px;
 }
 
+/* set layout for highscores text  */
 .highscores{
     display:inline;
     width: 50%;
     padding-left: 20px;
 }
+
+/* set different styling for highscore text on hover  */
 .highscores:hover {
-    color:rgb(212, 176, 246);
+    color:var(--medium);
     cursor:pointer;
 }
+
+/* set laout for highscores text */
 .display-timer {
     display: inline;
     width: 50%;
@@ -20,53 +33,55 @@ header {
     padding-right: 20px;
 }
 
+/* styling for all buttons on the page */
 button{
     margin: 5px;
     padding: 3px;
-    background-color: rgb(65, 5, 155);
+    background-color: var(--dark);
     color: white;
     border-radius: 5px;
 }
+
+/* set hover styling for all buttons */
 button:hover{
     cursor: pointer;
+    background-color: var(--medium);
 }
 
+/* set styling for h1 elements */
 h1 {
     font-size: 30px;
     font-weight:bold;
     margin-bottom: 20px;
 }
 
+/* set layout for card section where all JavaScript generated HTML will be placed */
 .card {
     display: flex;
     justify-content: center;
     margin: 30px 25% 0px 25%;
 }
 
+/* set styling for start screen */
 .start-screen{
     text-align: center;
 }
-
 .start-screen p{
     line-height: 25px;
 }
 
+/* set buttons on quiz screen to display in block rather than normal inline */
 .quiz-screen button {
     display:block;
 }
 
-.quiz-screen p {
-    margin-top: 20px;
-    font-style: italic;
-    color: grey;
-    border-top: 2px solid grey;
-    padding-top: 20px;
-}
 
+/* add margin to the initial input form */
 .end-screen form{
     margin-top: 20px; 
 }
 
+/* create top seperator line that will appear over lastanswerstate message */
 .last-answer{
     margin-top: 20px;
     font-style: italic;
@@ -75,14 +90,16 @@ h1 {
     padding-top: 20px;
 }
 
+/* sets formatting for list of highscores */
 .highscores-screen ol{
     list-style-type: decimal;
     margin-left: 20px;
     margin-bottom: 20px;
     line-height: 30px;
-    background-color: rgb(212, 176, 246);
+    background-color: var(--medium);
 }
 
+/* changes background color of every other highscore to improve readablitiy */
 .highscores-screen li:nth-child(even){
-    background-color:rgb(233, 215, 250)
+    background-color:var(--light);
 }

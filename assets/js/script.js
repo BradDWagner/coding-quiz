@@ -131,10 +131,8 @@ function generateQuiz (questionNumber){
                     }
                     
                 } else {
-                    clearInterval(timer);
                     timerCount = 0; 
                     generateEnd();
-                    timerDisplay.textContent = "Time: " + timerCount;
                 }
                 
             }
@@ -159,6 +157,7 @@ function generateEnd() {
     card.innerHTML = "";
     finalScore = timerCount;
     clearInterval(timer);
+    timerDisplay.textContent = "Time: " + timerCount;
 
     //create HTML elements
     var endDiv = document.createElement("div");

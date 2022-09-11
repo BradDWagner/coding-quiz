@@ -9,6 +9,10 @@ header {
     width: 50%;
     padding-left: 20px;
 }
+.highscores:hover {
+    color:rgb(212, 176, 246);
+    cursor:pointer;
+}
 .display-timer {
     display: inline;
     width: 50%;
@@ -22,6 +26,9 @@ button{
     background-color: rgb(65, 5, 155);
     color: white;
     border-radius: 5px;
+}
+button:hover{
+    cursor: pointer;
 }
 
 h1 {
@@ -74,4 +81,8 @@ h1 {
     margin-bottom: 20px;
     line-height: 30px;
     background-color: rgb(212, 176, 246);
+}
+
+.highscores-screen li:nth-child(even){
+    background-color:rgb(233, 215, 250)
 }

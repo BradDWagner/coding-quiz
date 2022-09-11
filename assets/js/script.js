@@ -1,17 +1,10 @@
-//function to generate starting screen
+//create variable for space where all HTML will be generated
 var card = document.querySelector(".card");
-
-
-
-
-//Array containing arrays of text data for quiz questions. Each nested array contains prompt at the 0 index, button options at the odd indexes, and true/false data on subsequent even indexes
-var questionArray = [
-    ["Comonly used data types DO NOT include:", "1. Strings", "false", "2. Booleans", "false", "3. Alerts", "true", "4. Numbers", "false"],
-    ["The condition in and if/else statement is enclosed withing ______:", "1. Quotes", "false", "2. Curly brackets", "false", "3. Parentheses", "true", "4. Square brackets", "false"],
-    ["String values must be enclosed within _____ when being assigned to variables.", "1. Commas", "false", "2. Curly brackets", "false", "3. Quotes", "true", "4. Parentheses", "false"],
-    ["Arrays in JavaScript can be used to store _____.", "1. Numbers and strings", "false", "2. Other arrays", "false", "3. Booleans", "false", "4. All of the above", "true"],
-    ["A very useful tool used during development and debuggin for printing content to the debugger is:", "1. JavaScript", "false", "2. Terminal/bash", "false", "3. For loops", "false", "4. Console.log", "true"]
-]
+//add link functionality to Highscores link
+var highScoreLink = document.querySelector(".highscores");
+highScoreLink.addEventListener("click", function(){
+    generateHighScores();
+})
 
 var lastAnswerState = "";
 var timer;
@@ -22,6 +15,14 @@ var finalScore;
 var highScoreArray = [];
 
 
+//Array containing arrays of text data for quiz questions. Each nested array contains prompt at the 0 index, button options at the odd indexes, and true/false data on subsequent even indexes
+var questionArray = [
+    ["Comonly used data types DO NOT include:", "1. Strings", "false", "2. Booleans", "false", "3. Alerts", "true", "4. Numbers", "false"],
+    ["The condition in and if/else statement is enclosed withing ______:", "1. Quotes", "false", "2. Curly brackets", "false", "3. Parentheses", "true", "4. Square brackets", "false"],
+    ["String values must be enclosed within _____ when being assigned to variables.", "1. Commas", "false", "2. Curly brackets", "false", "3. Quotes", "true", "4. Parentheses", "false"],
+    ["Arrays in JavaScript can be used to store _____.", "1. Numbers and strings", "false", "2. Other arrays", "false", "3. Booleans", "false", "4. All of the above", "true"],
+    ["A very useful tool used during development and debuggin for printing content to the debugger is:", "1. JavaScript", "false", "2. Terminal/bash", "false", "3. For loops", "false", "4. Console.log", "true"]
+]
 
 //function to generate starting screen
 function generateStart () {
@@ -60,12 +61,15 @@ function generateStart () {
 function startTimer(){
     timer = setInterval(function(){
         timerCount--;
-        timerDisplay.textContent = "Time: " + timerCount;
-        if (timerCount < 1){
+        
+        //if timer reaches zero it is stopped and count set to 0
+        if (timerCount <= 0){
             clearInterval(timer);
             timerCount = 0; 
             generateEnd();
         }
+
+        timerDisplay.textContent = "Time: " + timerCount;
     }, 1000);
 }
 
@@ -103,55 +107,57 @@ function generateQuiz (questionNumber){
         if (element.matches("button")) {
             var state = element.getAttribute("data-boolean");
 
-            //if true, sets the lastAnswerState variable to Correct and cycles to the next question if there is one, otherwise clears timer and takes you to the end screen
+            //if true, sets the lastAnswerState variable to Correct and cycles to the next question if there is one, otherwise the end screen is generated
             if (state == "true") {
                 lastAnswerState = "Correct!";
                 if (questionNumber + 1 < questionArray.length){
                     generateQuiz(questionNumber+1);
                 } else {
-                    finalScore = timerCount;
-
-                    clearInterval(timer);
                     generateEnd();
                 }
                 
             //if answer is incorrect changes lastAnswerState to Wrong. 
             } else {
                 lastAnswerState = "Wrong!";
-                if (timerCount > 19) {
+
+                //if there is more than 20s left on the timer, it is reduces by 20s for a wrong answer and the next question is generated if there is on. If there is fewer than 20s remaining, time count is set to 0 and the end screen is generated
+                if (timerCount >= 20) {
                     timerCount = timerCount - 20;
+
+                    if (questionNumber + 1 < questionArray.length){
+                        generateQuiz(questionNumber+1);
+                    } else {
+                        generateEnd();
+                    }
+                    
                 } else {
-                    timerCount = 0;
-                    finalScore = timerCount;
                     clearInterval(timer);
+                    timerCount = 0; 
                     generateEnd();
+                    timerDisplay.textContent = "Time: " + timerCount;
                 }
                 
-                if (questionNumber + 1 < questionArray.length){
-                    generateQuiz(questionNumber+1);
-                } else {
-                    finalScore = timerCount;
-                    clearInterval(timer);
-                    generateEnd();
-                }
             }
         }
     })
 
-    //using the lastAnswerState variable displays a bit of text to inform the user if the last answer was right or wrong for 1 second
+    //using the lastAnswerState variable displays a bit of text to inform the user if the last answer was right or wrong 
     var quizLastAnswer = document.createElement("p");
     quizLastAnswer.setAttribute("class", "last-answer");
     quizLastAnswer.textContent = lastAnswerState;
     quizDiv.appendChild(quizLastAnswer);
 
+    //clears out the last answer info after 1s
     setTimeout(function() {
         quizDiv.removeChild(quizLastAnswer);
+        lastAnswerState = "";
     }, 1000);
 }
 
 //function to generate end screen
 function generateEnd() {
     card.innerHTML = "";
+    finalScore = timerCount;
 
     //create HTML elements
     var endDiv = document.createElement("div");
@@ -191,6 +197,7 @@ function generateEnd() {
     endLastAnswer.textContent = lastAnswerState;
     endDiv.appendChild(endLastAnswer);
 
+    //removes the last answer state message after 1s
     setTimeout(function() {
         endDiv.removeChild(endLastAnswer);
     }, 1000);
@@ -201,6 +208,7 @@ function generateEnd() {
     //collects input of the users initials from the form element, adds it to the users final score and stores it in the highScoreArray, and takes the user to the highScores screen
     initialSubmit.addEventListener("click", function(event){
         var initialText = initialInput.value.trim();
+        
         if (initialText === "") {
             return;
         }
@@ -272,7 +280,6 @@ function init() {
     if (storedHighScores !== null) {
         highScoreArray = storedHighScores;
     }
-    console.log(highScoreArray);
     generateStart();
 }
 init();

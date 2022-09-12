@@ -4,6 +4,7 @@ var card = document.querySelector(".card");
 var highScoreLink = document.querySelector(".highscores");
 highScoreLink.addEventListener("click", function(){
     generateHighScores();
+    clearInterval(timer);
 })
 
 var lastAnswerState = "";
@@ -213,9 +214,7 @@ function generateEnd() {
             return;
         }
 
-        highScoreArray.push(initialText.toUpperCase() + " - " + finalScore);
-        console.log(highScoreArray);
-
+        highScoreArray.push(initialText.toUpperCase() + " - " + finalScore)
         generateHighScores();
     })
 

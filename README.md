@@ -1,7 +1,12 @@
 # coding-quiz
 
 ##  Description
-
+The purpose of this repository is to create an interactive coding quiz on JavaScript, using primarily JavaScript. 
+![Start screen of application](./assets/images/start-screen.png)
+The quiz takes the form of a 5 multiple choice timed questions, with a 20 second time penalty for an incorrect answer. 
+![Quiz screen of application](./assets/images/quiz-screen.png)
+The code also utilizes the users local storage to store to highscores. 
+![Highscores screen of application](./assets/images/high-scores.png)
 
 ## Installation
 N/A
